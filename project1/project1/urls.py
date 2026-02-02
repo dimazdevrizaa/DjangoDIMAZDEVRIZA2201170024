@@ -16,8 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from mahasiswa.views import tampilkan_semua_data
+from project1.views import home
 
 urlpatterns = [
+    path('', home, name='home'),
+    path('tampilkan-semua-data/', tampilkan_semua_data, name='tampilkan_semua_data'),
     path('admin/', admin.site.urls),
     path('mahasiswa/', include('mahasiswa.urls')),
+    path('dosen/', include('dosen.urls')),
+    path('matakuliah/', include('matakuliah.urls')),
 ]

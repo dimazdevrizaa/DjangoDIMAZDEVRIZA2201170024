@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Input Mahasiswa</title>
+    <title>Input Dosen</title>
     {% load static %}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Add Bootstrap icons -->
@@ -117,7 +117,7 @@
 
 <body>
     <div class="container py-5">
-        <h1 class="page-header text-center mb-5">Sistem Manajemen Data Mahasiswa</h1>
+        <h1 class="page-header text-center mb-5">Sistem Manajemen Data Dosen</h1>
 
         <!-- Django Messages Display -->
         {% if messages %}
@@ -150,7 +150,7 @@
                 <div class="card mb-4 shadow-lg">
                     <div class="card-header gradient-header py-3">
                         <h5 class="card-title mb-0">
-                            <i class="bi bi-person-plus-fill me-2"></i>Form Input Mahasiswa
+                            <i class="bi bi-person-plus-fill me-2"></i>Form Input Dosen
                         </h5>
                     </div>
                     <div class="card-body p-4">
@@ -170,13 +170,13 @@
                             </div>
 
                             <div class="row mb-3 align-items-center">
-                                <label class="col-sm-2 form-row-label" for="{{ form.npm.id_for_label }}">
-                                    <i class="bi bi-hash me-2"></i>NPM:
+                                <label class="col-sm-2 form-row-label" for="{{ form.nidn.id_for_label }}">
+                                    <i class="bi bi-hash me-2"></i>NIDN:
                                 </label>
                                 <div class="col-sm-10">
-                                    {{ form.npm }}
-                                    {% if form.npm.errors %}
-                                    <div class="text-danger small mt-1">{{ form.npm.errors.0 }}</div>
+                                    {{ form.nidn }}
+                                    {% if form.nidn.errors %}
+                                    <div class="text-danger small mt-1">{{ form.nidn.errors.0 }}</div>
                                     {% endif %}
                                 </div>
                             </div>
@@ -206,13 +206,13 @@
                             </div>
 
                             <div class="row mb-3 align-items-start">
-                                <label class="col-sm-2 form-row-label" for="{{ form.jurusan.id_for_label }}">
-                                    <i class="bi bi-building me-2"></i>Jurusan:
+                                <label class="col-sm-2 form-row-label" for="{{ form.homebase.id_for_label }}">
+                                    <i class="bi bi-building me-2"></i>Homebase:
                                 </label>
                                 <div class="col-sm-10">
-                                    {{ form.jurusan }}
-                                    {% if form.jurusan.errors %}
-                                    <div class="text-danger small mt-1">{{ form.jurusan.errors.0 }}</div>
+                                    {{ form.homebase }}
+                                    {% if form.homebase.errors %}
+                                    <div class="text-danger small mt-1">{{ form.homebase.errors.0 }}</div>
                                     {% endif %}
                                 </div>
                             </div>
@@ -246,36 +246,25 @@
                 <div class="card shadow-lg">
                     <div class="card-header gradient-header py-3">
                         <h5 class="card-title mb-0">
-                            <i class="bi bi-table me-2"></i>Daftar Mahasiswa
+                            <i class="bi bi-table me-2"></i>Daftar Dosen
                         </h5>
                     </div>
                     <div class="card-body p-4">
-                        <!-- Search and Filter -->
+                        <!-- Search -->
                         <form method="get" class="row g-3 mb-4">
-                            <div class="col-md-5">
+                            <div class="col-md-8">
                                 <div class="input-group shadow-sm">
                                     <span class="input-group-text bg-white border-end-0"><i
                                             class="bi bi-search text-secondary"></i></span>
                                     <input type="text" class="form-control border-start-0 ps-0" name="q"
-                                        placeholder="Cari Nama atau NPM..." value="{{ search_query }}">
+                                        placeholder="Cari Nama atau NIDN..." value="{{ search_query }}">
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="input-group shadow-sm">
-                                    <span class="input-group-text bg-white"><i
-                                            class="bi bi-funnel text-secondary"></i></span>
-                                    <select class="form-select border-start-0" name="jurusan">
-                                        <option value="">Semua Jurusan</option>
-                                        <option value="Teknologi Informasi" {% if jurusan_filter == 'Teknologi Informasi' %}selected{% endif %}>Teknologi Informasi</option>
-                                        <option value="Sains Data" {% if jurusan_filter == 'Sains Data' %}selected{% endif %}>Sains Data</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-3 d-flex gap-2">
+                            <div class="col-md-4 d-flex gap-2">
                                 <button type="submit" class="btn btn-primary shadow-sm flex-grow-1">
-                                    <i class="bi bi-search me-1"></i>Filter
+                                    <i class="bi bi-search me-1"></i>Cari
                                 </button>
-                                <a href="{% url 'input_mahasiswa' %}" class="btn btn-outline-secondary shadow-sm"
+                                <a href="{% url 'input_dosen' %}" class="btn btn-outline-secondary shadow-sm"
                                     title="Reset Filter">
                                     <i class="bi bi-arrow-counterclockwise"></i>
                                 </a>
@@ -288,33 +277,33 @@
                                     <tr>
                                         <th class="fw-semibold">No</th>
                                         <th class="fw-semibold">Nama</th>
-                                        <th class="fw-semibold">NPM</th>
+                                        <th class="fw-semibold">NIDN</th>
                                         <th class="fw-semibold">No. HP</th>
-                                        <th class="fw-semibold">Jurusan</th>
+                                        <th class="fw-semibold">Homebase</th>
                                         <th class="fw-semibold">Alamat</th>
                                         <th class="fw-semibold">Email</th>
                                         <th class="fw-semibold text-center">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for mhs in mahasiswa %}
-                                    <tr data-id="{{ mhs.id }}">
+                                    {% for d in dosen %}
+                                    <tr data-id="{{ d.id }}">
                                         <th scope="row">{{ forloop.counter }}</th>
-                                        <td class="nama">{{ mhs.nama }}</td>
-                                        <td class="npm">{{ mhs.npm }}</td>
-                                        <td class="no_hp">{{ mhs.no_hp }}</td>
-                                        <td class="jurusan">{{ mhs.jurusan }}</td>
-                                        <td class="alamat">{{ mhs.alamat }}</td>
-                                        <td class="email">{{ mhs.email }}</td>
+                                        <td class="nama">{{ d.nama }}</td>
+                                        <td class="nidn">{{ d.nidn }}</td>
+                                        <td class="no_hp">{{ d.no_hp }}</td>
+                                        <td class="homebase">{{ d.homebase }}</td>
+                                        <td class="alamat">{{ d.alamat }}</td>
+                                        <td class="email">{{ d.email }}</td>
                                         <td class="aksi text-center">
                                             <button type="button" class="btn btn-warning btn-sm edit-btn"
-                                                data-id="{{ mhs.id }}"
-                                                data-update-url="{% url 'mahasiswa_update' mhs.id %}">
+                                                data-id="{{ d.id }}"
+                                                data-update-url="{% url 'dosen_update' d.id %}">
                                                 <i class="bi bi-pencil-square me-1"></i>Edit
                                             </button>
                                             <button type="button" class="btn btn-danger delete-btn ms-1"
-                                                data-id="{{ mhs.id }}"
-                                                data-delete-url="{% url 'mahasiswa_delete' mhs.id %}">
+                                                data-id="{{ d.id }}"
+                                                data-delete-url="{% url 'dosen_delete' d.id %}">
                                                 <i class="bi bi-trash"></i>
                                             </button>
                                         </td>
@@ -322,7 +311,7 @@
                                     {% empty %}
                                     <tr>
                                         <td colspan="8" class="text-center py-4 text-muted">
-                                            <i class="bi bi-inbox-fill me-2"></i>Tidak ada data mahasiswa.
+                                            <i class="bi bi-inbox-fill me-2"></i>Tidak ada data dosen.
                                         </td>
                                     </tr>
                                     {% endfor %}
@@ -330,10 +319,10 @@
                             </table>
                         </div>
                         <div class="d-flex gap-2 mt-3">
-                            <a href="{% url 'export_mahasiswa_csv' %}{% if search_query %}?q={{ search_query }}{% endif %}{% if jurusan_filter %}&jurusan={{ jurusan_filter }}{% endif %}" class="btn btn-sm btn-outline-primary">
+                            <a href="{% url 'export_dosen_csv' %}{% if search_query %}?q={{ search_query }}{% endif %}" class="btn btn-sm btn-outline-primary">
                                 <i class="bi bi-file-earmark-csv me-1"></i>Export CSV
                             </a>
-                            <a href="{% url 'export_mahasiswa_excel' %}{% if search_query %}?q={{ search_query }}{% endif %}{% if jurusan_filter %}&jurusan={{ jurusan_filter }}{% endif %}" class="btn btn-sm btn-outline-success">
+                            <a href="{% url 'export_dosen_excel' %}{% if search_query %}?q={{ search_query }}{% endif %}" class="btn btn-sm btn-outline-success">
                                 <i class="bi bi-file-earmark-excel me-1"></i>Export Excel
                             </a>
                         </div>
@@ -346,7 +335,6 @@
     <!-- Add Bootstrap JS and Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Your existing script remains unchanged -->
     <script>
         function getCookie(name) {
             let cookieValue = null;
@@ -377,21 +365,21 @@
 
         document.addEventListener('click', function (e) {
             // EDIT button
-            if (e.target.closest('.edit-btn')) {  // Change from matches() to closest()
-                const btn = e.target.closest('.edit-btn');  // Get the button even if icon was clicked
+            if (e.target.closest('.edit-btn')) {
+                const btn = e.target.closest('.edit-btn');
                 const row = btn.closest('tr');
                 const id = btn.dataset.id;
                 const namaCell = row.querySelector('.nama');
-                const npmCell = row.querySelector('.npm');
+                const nidnCell = row.querySelector('.nidn');
                 const emailCell = row.querySelector('.email');
                 const noHpCell = row.querySelector('.no_hp');
-                const jurusanCell = row.querySelector('.jurusan');
+                const homebaseCell = row.querySelector('.homebase');
                 const alamatCell = row.querySelector('.alamat');
 
                 const editing = btn.dataset.editing === 'true';
                 if (!editing) {
                     btn.dataset.editing = 'true';
-                    btn.innerHTML = '<i class="bi bi-check-lg me-1"></i>Save';  // Update button content with icon
+                    btn.innerHTML = '<i class="bi bi-check-lg me-1"></i>Save';
                     let cancel = row.querySelector('.cancel-btn');
                     if (!cancel) {
                         cancel = document.createElement('button');
@@ -402,31 +390,27 @@
                     }
 
                     namaCell.dataset.old = namaCell.textContent.trim();
-                    npmCell.dataset.old = npmCell.textContent.trim();
+                    nidnCell.dataset.old = nidnCell.textContent.trim();
                     emailCell.dataset.old = emailCell.textContent.trim();
-                    if (noHpCell) noHpCell.dataset.old = noHpCell.textContent.trim();
-                    jurusanCell.dataset.old = jurusanCell.textContent.trim();
+                    noHpCell.dataset.old = noHpCell.textContent.trim();
+                    homebaseCell.dataset.old = homebaseCell.textContent.trim();
                     alamatCell.dataset.old = alamatCell.textContent.trim();
 
                     namaCell.innerHTML = `<input class="form-control form-control-sm" value="${namaCell.dataset.old}">`;
-                    npmCell.innerHTML = `<input class="form-control form-control-sm" value="${npmCell.dataset.old}">`;
+                    nidnCell.innerHTML = `<input class="form-control form-control-sm" value="${nidnCell.dataset.old}">`;
                     emailCell.innerHTML = `<input class="form-control form-control-sm" value="${emailCell.dataset.old}">`;
-                    if (noHpCell) noHpCell.innerHTML = `<input class="form-control form-control-sm" value="${noHpCell.dataset.old}">`;
-                    jurusanCell.innerHTML = `<select class="form-control form-control-sm">
-                <option value="">Pilih Jurusan</option>
-                <option value="Teknologi Informasi" ${jurusanCell.dataset.old === 'Teknologi Informasi' ? 'selected' : ''}>Teknologi Informasi</option>
-                <option value="Sains Data" ${jurusanCell.dataset.old === 'Sains Data' ? 'selected' : ''}>Sains Data</option>
-            </select>`;
+                    noHpCell.innerHTML = `<input class="form-control form-control-sm" value="${noHpCell.dataset.old}">`;
+                    homebaseCell.innerHTML = `<input class="form-control form-control-sm" value="${homebaseCell.dataset.old}">`;
                     alamatCell.innerHTML = `<textarea class="form-control form-control-sm" rows="2">${alamatCell.dataset.old}</textarea>`;
                     return;
                 }
 
                 // Save flow
                 const newNama = namaCell.querySelector('input').value.trim();
-                const newNpm = npmCell.querySelector('input').value.trim();
+                const newNidn = nidnCell.querySelector('input').value.trim();
                 const newEmail = emailCell.querySelector('input').value.trim();
-                const newNoHp = noHpCell ? noHpCell.querySelector('input').value.trim() : '';
-                const newJurusan = jurusanCell.querySelector('select') ? jurusanCell.querySelector('select').value.trim() : jurusanCell.querySelector('input').value.trim();
+                const newNoHp = noHpCell.querySelector('input').value.trim();
+                const newHomebase = homebaseCell.querySelector('input').value.trim();
                 const newAlamat = alamatCell.querySelector('textarea').value.trim();
 
                 const updateUrl = btn.dataset.updateUrl;
@@ -436,19 +420,19 @@
                         'Content-Type': 'application/json',
                         'X-CSRFToken': csrftoken,
                     },
-                    body: JSON.stringify({ nama: newNama, npm: newNpm, email: newEmail, no_hp: newNoHp, jurusan: newJurusan, alamat: newAlamat })
+                    body: JSON.stringify({ nama: newNama, nidn: newNidn, email: newEmail, no_hp: newNoHp, homebase: newHomebase, alamat: newAlamat })
                 })
                     .then(r => r.json())
                     .then(json => {
                         if (json.success) {
                             namaCell.textContent = newNama;
-                            npmCell.textContent = newNpm;
+                            nidnCell.textContent = newNidn;
                             emailCell.textContent = newEmail;
-                            if (noHpCell) noHpCell.textContent = newNoHp;
-                            if (jurusanCell) jurusanCell.textContent = newJurusan;
-                            if (alamatCell) alamatCell.textContent = newAlamat;
+                            noHpCell.textContent = newNoHp;
+                            homebaseCell.textContent = newHomebase;
+                            alamatCell.textContent = newAlamat;
                             btn.dataset.editing = 'false';
-                            btn.innerHTML = '<i class="bi bi-pencil-square me-1"></i>Edit';  // Reset button content
+                            btn.innerHTML = '<i class="bi bi-pencil-square me-1"></i>Edit';
                             const cancelBtn = row.querySelector('.cancel-btn');
                             if (cancelBtn) cancelBtn.remove();
                         } else {
@@ -463,17 +447,17 @@
                 const row = e.target.closest('tr');
                 const btn = row.querySelector('.edit-btn');
                 const namaCell = row.querySelector('.nama');
-                const npmCell = row.querySelector('.npm');
+                const nidnCell = row.querySelector('.nidn');
                 const emailCell = row.querySelector('.email');
                 const noHpCell = row.querySelector('.no_hp');
-                const jurusanCell = row.querySelector('.jurusan');
+                const homebaseCell = row.querySelector('.homebase');
                 const alamatCell = row.querySelector('.alamat');
 
                 namaCell.textContent = namaCell.dataset.old || namaCell.textContent;
-                npmCell.textContent = npmCell.dataset.old || npmCell.textContent;
+                nidnCell.textContent = nidnCell.dataset.old || nidnCell.textContent;
                 emailCell.textContent = emailCell.dataset.old || emailCell.textContent;
-                if (noHpCell) noHpCell.textContent = noHpCell.dataset.old || noHpCell.textContent;
-                jurusanCell.textContent = jurusanCell.dataset.old || jurusanCell.textContent;
+                noHpCell.textContent = noHpCell.dataset.old || noHpCell.textContent;
+                homebaseCell.textContent = homebaseCell.dataset.old || homebaseCell.textContent;
                 alamatCell.textContent = alamatCell.dataset.old || alamatCell.textContent;
 
                 btn.dataset.editing = 'false';
@@ -482,8 +466,8 @@
             }
 
             // DELETE button
-            if (e.target.closest('.delete-btn')) {  // Change from matches() to closest()
-                const btn = e.target.closest('.delete-btn');  // Get the button even if icon was clicked
+            if (e.target.closest('.delete-btn')) {
+                const btn = e.target.closest('.delete-btn');
                 const id = btn.dataset.id;
                 const row = btn.closest('tr');
                 if (!confirm('Hapus data ini?')) return;
@@ -502,8 +486,7 @@
                         if (json.success) {
                             row.remove();
                             updateRowNumbers();
-                            // Add this to prevent the duplicate issue on refresh
-                            window.location.href = window.location.pathname;  // Redirect to same page
+                            window.location.href = window.location.pathname;
                         } else {
                             alert(json.error || 'Gagal menghapus data.');
                         }
